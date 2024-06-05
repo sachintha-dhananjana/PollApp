@@ -1,14 +1,13 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+
 from . import views
 
-app_name="polls"
+router = routers.DefaultRouter();
+
+router.register(r'question', views.QuestionViewSet)
+
 urlpatterns = [
-    # ex: /polls/
-    path("", views.IndexView.as_view(), name="index"),
-    # ex: /polls/5/
-    path("test/<int:pk>/", views.DetailView.as_view(), name="detail"),
-    # ex: /polls/5/results/
-    path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
-    # ex: /polls/5/vote/
-    path("<int:question_id>/vote/", views.vote, name="vote"),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
